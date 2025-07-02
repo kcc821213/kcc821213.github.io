@@ -48,6 +48,8 @@
   <div id="result"></div>
 
   <script>
+    const options = ["14:00", "00:00", "02:00"];
+
     function updateCurrentTime() {
       const now = new Date();
       const timeString = now.toLocaleTimeString('zh-TW', { hour12: false });
@@ -72,8 +74,33 @@
       document.getElementById('result').textContent = `距離 ${selected} 還有 ${diffMinutes} 分鐘`;
     }
 
+    function setClosestTimeOption() {
+      const now = new Date();
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+      let closest = options[0];
+      let minDiff = Infinity;
+
+      options.forEach(option => {
+        const [h, m] = option.split(':').map(Number);
+        let optionMinutes = h * 60 + m;
+
+        // 若目標時間已過，視為隔天
+        if (optionMinutes < nowMinutes) optionMinutes += 1440;
+
+        const diff = Math.abs(optionMinutes - nowMinutes);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = option;
+        }
+      });
+
+      document.getElementById('time-select').value = closest;
+    }
+
     setInterval(updateCurrentTime, 1000);
     updateCurrentTime();
+    setClosestTimeOption();
   </script>
 </body>
 </html>
