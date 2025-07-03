@@ -59,26 +59,26 @@
       document.getElementById('time-display').textContent = `當前時間：${timeString}`;
     }
 
-    function calculateDifference() {
-      const now = new Date();
-      const deduct = parseInt(document.getElementById('deduct-minutes').value) || 0;
-      now.setMinutes(now.getMinutes() - deduct);
+function calculateDifference() {
+  const now = new Date();
+  const add = parseInt(document.getElementById('deduct-minutes').value) || 0;
+  now.setMinutes(now.getMinutes() + add); // 加上輸入的分鐘數
 
-      const selected = document.getElementById('time-select').value;
-      const [targetHour, targetMinute] = selected.split(':').map(Number);
+  const selected = document.getElementById('time-select').value;
+  const [targetHour, targetMinute] = selected.split(':').map(Number);
 
-      const target = new Date(now);
-      target.setHours(targetHour, targetMinute, 0, 0);
+  const target = new Date(now);
+  target.setHours(targetHour, targetMinute, 0, 0);
 
-      if (target < now) {
-        target.setDate(target.getDate() + 1);
-      }
+  if (target < now) {
+    target.setDate(target.getDate() + 1);
+  }
 
-      const diffMs = target - now;
-      const diffMinutes = Math.round(diffMs / 60000);
+  const diffMs = target - now;
+  const diffMinutes = Math.round(diffMs / 60000);
 
-      document.getElementById('result').textContent = `距離 ${selected} 還有 ${diffMinutes} 分鐘（已扣除 ${deduct} 分鐘）`;
-    }
+  document.getElementById('result').textContent = `距離 ${selected} 還有 ${diffMinutes} 分鐘（當前時間 + ${add} 分鐘後計算）`;
+}
 
     function setClosestTimeOption() {
       const now = new Date();
