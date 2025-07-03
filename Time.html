@@ -19,10 +19,10 @@
 
     #time-display {
       font-size: 48px;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
-    label, select, button, #result {
+    label, select, input, button, #result {
       font-size: 24px;
       margin: 10px;
     }
@@ -35,6 +35,9 @@
 </head>
 <body>
   <div id="time-display">當前時間：--:--:--</div>
+
+  <label for="deduct-minutes">扣除分鐘數：</label>
+  <input type="number" id="deduct-minutes" value="0" min="0" />
 
   <label for="time-select">選擇時間：</label>
   <select id="time-select">
@@ -58,6 +61,9 @@
 
     function calculateDifference() {
       const now = new Date();
+      const deduct = parseInt(document.getElementById('deduct-minutes').value) || 0;
+      now.setMinutes(now.getMinutes() - deduct);
+
       const selected = document.getElementById('time-select').value;
       const [targetHour, targetMinute] = selected.split(':').map(Number);
 
@@ -71,7 +77,7 @@
       const diffMs = target - now;
       const diffMinutes = Math.round(diffMs / 60000);
 
-      document.getElementById('result').textContent = `距離 ${selected} 還有 ${diffMinutes} 分鐘`;
+      document.getElementById('result').textContent = `距離 ${selected} 還有 ${diffMinutes} 分鐘（已扣除 ${deduct} 分鐘）`;
     }
 
     function setClosestTimeOption() {
@@ -85,7 +91,6 @@
         const [h, m] = option.split(':').map(Number);
         let optionMinutes = h * 60 + m;
 
-        // 若目標時間已過，視為隔天
         if (optionMinutes < nowMinutes) optionMinutes += 1440;
 
         const diff = Math.abs(optionMinutes - nowMinutes);
