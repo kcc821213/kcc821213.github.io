@@ -2,31 +2,66 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>等級查詢系統</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>等級經驗值查詢</title>
   <style>
     body {
       font-family: "微軟正黑體", sans-serif;
       background-color: #f0f0f5;
-      padding: 40px;
+      padding: 20px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 360px;
+      background-color: white;
+      padding: 20px;
+      margin-top: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
+
     input, button {
       font-size: 1rem;
       padding: 10px;
-      margin: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
     }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
     #result {
       margin-top: 20px;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #333;
     }
   </style>
 </head>
 <body>
-  <h1>等級經驗值查詢</h1>
-  <input type="number" id="levelInput" placeholder="輸入等級 (1~200)" min="1" max="200">
-  <button onclick="lookupExp()">查詢</button>
-  <div id="result"></div>
+  <div class="container">
+    <h2>等級經驗值查詢</h2>
+    <input type="number" id="levelInput" placeholder="輸入等級 (1~200)" min="1" max="200">
+    <button onclick="lookupExp()">查詢</button>
+    <div id="result"></div>
+  </div>
 
   <script>
     const levelExpMap = {
@@ -75,7 +110,7 @@
       if (level < 1 || level > 200 || !exp && exp !== 0) {
         result.textContent = "請輸入 1 到 200 之間的等級。";
       } else {
-        result.textContent = `等級 ${level} 需要的經驗值為：${exp.toLocaleString()}`;
+        result.textContent = `等級 ${level} 所需經驗值為：${exp.toLocaleString()}`;
       }
     }
   </script>
